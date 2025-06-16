@@ -8,11 +8,15 @@ function App() {
 
   function getPhoneNumber() {
     if (window.Telegram.WebApp) {
-      const xd = window.Telegram.WebApp.requestContact(x => {
-        console.log('x', x)
-        setPhone(x)
+      window.Telegram.WebApp.requestContact(contact => {
+        console.log('Contact received:', contact)
+        // Extract phone number from contact object
+        if (contact && contact.phone_number) {
+          setPhone(contact.phone_number)
+        } else {
+          console.error('Phone number not found in contact response')
+        }
       })
-      console.log('xd', xd)
     }
   }
 
