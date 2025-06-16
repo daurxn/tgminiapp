@@ -6,12 +6,13 @@ interface TelegramWebApp {
                 // Add other user properties as needed
             }
         };
-        requestContact: (callback: (contact: {
-            phone_number: string;
-            first_name?: string;
-            last_name?: string;
-            user_id?: number;
-        }) => void) => void;
+        // The correct way to request phone based on Telegram docs
+        requestPhone: () => Promise<string>;
+        // For backwards compatibility, but this isn't the correct method name
+        requestContact?: (callback: (contact: { phone_number?: string }) => void) => void;
+        // Add event handling
+        onEvent: (eventType: string, callback: (eventData?: unknown) => void) => void;
+        offEvent: (eventType: string, callback: (eventData?: unknown) => void) => void;
         // Add other WebApp methods as needed
     }
 }

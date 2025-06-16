@@ -6,17 +6,16 @@ function App() {
   // const userId = window.Telegram.WebApp.initDataUnsafe?.user?.id ?? 2
   // const [tickets, setTickets] = useState([])
 
-  function getPhoneNumber() {
+  async function getPhoneNumber() {
     if (window.Telegram.WebApp) {
-      window.Telegram.WebApp.requestContact(contact => {
-        console.log('Contact received:', contact)
-        // Extract phone number from contact object
-        if (contact && contact.phone_number) {
-          setPhone(contact.phone_number)
-        } else {
-          console.error('Phone number not found in contact response')
-        }
-      })
+      try {
+        // Use the correct requestPhone method that returns a Promise
+        const phoneNumber = await window.Telegram.WebApp.requestPhone()
+        console.log('Phone number received:', phoneNumber)
+        setPhone(phoneNumber)
+      } catch (error) {
+        console.error('Error getting phone number:', error)
+      }
     }
   }
 
