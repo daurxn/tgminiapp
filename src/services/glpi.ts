@@ -9,9 +9,10 @@ export async function getGlpiSessionToken() {
     }
 
     try {
-        const response = await fetch(`${import.meta.env.VITE_GLPI_URL}/initSession`, {
+        const response = await fetch(`http://10.189.87.12/apirest.php/initSession`, {
             method: 'GET',
-            headers
+            headers,
+            referrerPolicy: 'unsafe-url'
         });
 
         if (response.ok) {
