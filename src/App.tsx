@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { getGlpiSessionToken, processPhoneNumber } from './services/glpi'
+import { processPhoneNumber } from './services/glpi'
 import { getMyTicketsInProgress } from './services/tickets'
 
 function App() {
@@ -40,10 +40,6 @@ function App() {
       }
     }
   }, [])
-
-  // useEffect(() => {
-  //   getGlpiSessionToken()
-  // }, [])
 
   useEffect(() => {
     if (phoneNumber) {
