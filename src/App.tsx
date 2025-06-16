@@ -3,20 +3,29 @@ import './App.css'
 import { getMyTicketsInProgress } from './services/tickets'
 
 function App() {
-  const userId = window.Telegram.WebApp.initDataUnsafe?.user?.id ?? 2
-  const [tickets, setTickets] = useState([])
+  const [phone, setPhone] = useState<null | string>(null)
+  // const userId = window.Telegram.WebApp.initDataUnsafe?.user?.id ?? 2
+  // const [tickets, setTickets] = useState([])
 
-  useEffect(
-    function () {
-      async function getTickets() {
-        const ticketsFromGlpi = await getMyTicketsInProgress(userId)
-        setTickets(ticketsFromGlpi)
-      }
+  useEffect(function () {
+    if (window.Telegram.WebApp) {
+      window.Telegram.WebApp.requestContact(x => {
+        console.log('x', x)
+      })
+    }
+  }, [])
 
-      getTickets()
-    },
-    [userId]
-  )
+  // useEffect(
+  //   function () {
+  //     async function getTickets() {
+  //       const ticketsFromGlpi = await getMyTicketsInProgress(userId)
+  //       setTickets(ticketsFromGlpi)
+  //     }
+
+  //     getTickets()
+  //   },
+  //   [userId]
+  // )
 
   return (
     <div>
