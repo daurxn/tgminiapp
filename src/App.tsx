@@ -12,6 +12,8 @@ function App() {
         console.log('x', x)
       })
     }
+    // smth
+    
   }, [])
 
   // useEffect(
