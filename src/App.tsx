@@ -25,25 +25,25 @@ function App() {
         setInitialUser(user)
       }
 
-      // Handler for contact received event
-      const handleContactReceived = (data: ContactReceivedData) => {
-        console.log('Contact received:', data)
-        if (data.phone_number) {
-          setPhoneNumber(data.phone_number)
-          setStatusMessage('Success! Your phone number has been received.')
+      // Handler for contactRequested event
+      const handleContactRequested = (data: ContactRequestedData) => {
+        console.log('Contact requested event:', data)
+        if (data.status === 'sent') {
+          // Note: We don't actually get the phone number from this API
+          // The phone number is shared with the bot/backend, not with the frontend
+          setPhoneNumber('Phone number shared with bot')
+          setStatusMessage('Success! Your phone number has been shared with the bot.')
         } else {
-          setStatusMessage(
-            'Error: Contact was shared, but phosne number was not provided.'
-          )
+          setStatusMessage('You declined to share your phone number. Please try again.')
         }
       }
 
-      // Set up event listener for contact_received event
-      tg.onEvent('contact_received', handleContactReceived)
+      // Set up event listener for contactRequested event
+      tg.onEvent('contactRequested', handleContactRequested)
 
       // Clean up event listener when component unmounts
       return () => {
-        tg.offEvent('contact_received', handleContactReceived)
+        tg.offEvent('contactRequested', handleContactRequested)
       }
     } else {
       console.warn(

@@ -25,8 +25,8 @@ interface WebAppInitData {
   hash: string;
 }
 
-interface ContactReceivedData {
-  phone_number: string;
+interface ContactRequestedData {
+  status: 'sent' | 'cancelled';
 }
 
 interface Window {
@@ -35,8 +35,8 @@ interface Window {
       ready: () => void;
       initData: string;
       initDataUnsafe: WebAppInitData;
-      onEvent: (eventType: 'contact_received', eventHandler: (data: ContactReceivedData) => void) => void;
-      offEvent: (eventType: 'contact_received', eventHandler: (data: ContactReceivedData) => void) => void;
+      onEvent: (eventType: 'contactRequested', eventHandler: (data: ContactRequestedData) => void) => void;
+      offEvent: (eventType: 'contactRequested', eventHandler: (data: ContactRequestedData) => void) => void;
       requestContact: (callback: (isShared: boolean) => void) => void;
       MainButton: {
         show: () => void;
