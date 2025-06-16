@@ -1,20 +1,29 @@
-import { useEffect } from 'react'
+import { useState } from 'react'
 import './App.css'
 
 function App() {
-  // const [phone, setPhone] = useState<null | string>(null)
+  const [phone, setPhone] = useState<null | string>(null)
   // const userId = window.Telegram.WebApp.initDataUnsafe?.user?.id ?? 2
   // const [tickets, setTickets] = useState([])
 
-  useEffect(function () {
+  function getPhoneNumber() {
     if (window.Telegram.WebApp) {
       window.Telegram.WebApp.requestContact(x => {
         console.log('x', x)
+        setPhone(x[0])
       })
     }
-    // smth
+  }
 
-  }, [])
+  // useEffect(function () {
+  //   if (window.Telegram.WebApp) {
+  //     window.Telegram.WebApp.requestContact(x => {
+  //       console.log('x', x)
+  //       setPhone(x[0])
+  //     })
+  //   }
+  //   // smth
+  // }, [])
 
   // useEffect(
   //   function () {
@@ -30,8 +39,9 @@ function App() {
 
   return (
     <div>
-      {/* <div>{userId}</div>
-      <div>{tickets}</div> */}
+      <div>Hello my friend</div>
+      <button onClick={getPhoneNumber}>Get phone number</button>
+      <div>{phone}</div>
     </div>
   )
 }
