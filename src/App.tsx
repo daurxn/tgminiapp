@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import { processPhoneNumber } from './services/glpi'
+import { getMyTicketsInProgress } from './services/tickets'
 
 function App() {
+  const [userId, setUserId] = useState<string | null>(null)
   const [phoneNumber, setPhoneNumber] = useState<string | null>(null)
   const [statusMessage, setStatusMessage] = useState<string>(
     'Click to share phone number'
@@ -36,6 +39,37 @@ function App() {
       }
     }
   }, [])
+
+  useEffect(() => {
+    if (phoneNumber) {
+      // Process the phone number with GLPI
+      const checkUserInGlpi = async () => {
+        const result = await processPhoneNumber(phoneNumber)
+        setStatusMessage(result.message)
+
+        // If you need to use the GLPI user ID
+        if (result.success && result.glpiUserId) {
+          console.log('GLPI User ID:', result.glpiUserId)
+          setUserId(result.glpiUserId)
+          // Here you could store the GLPI user ID or perform additional actions
+        }
+      }
+
+      checkUserInGlpi()
+    }
+  }, [phoneNumber])
+
+  useEffect(() => {
+    async function getTickets() {
+      const tickets = await getMyTicketsInProgress(userId!)
+
+      console.log('tickets: ', tickets)
+    }
+
+    if (userId) {
+      getTickets()
+    }
+  }, [userId])
 
   // Request phone number
   const requestPhoneNumber = () => {

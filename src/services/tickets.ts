@@ -1,6 +1,6 @@
-import { getGlpiSessionToken } from "./glpiSession";
+import { getGlpiSessionToken } from "./glpi";
 
-export async function getCurrentTicketsFromGlpi(userId: number, sessionToken: string) {
+export async function getCurrentTicketsFromGlpi(userId: string, sessionToken: string) {
     const headers = {
         "Session-Token": sessionToken,
         "App-Token": import.meta.env.VITE_GLPI_API_TOKEN,
@@ -41,11 +41,11 @@ export async function getCurrentTicketsFromGlpi(userId: number, sessionToken: st
     }
 }
 
-export async function getMyTicketsInProgress(userId: number) {
+export async function getMyTicketsInProgress(userId: string) {
     return getAndSendTickets(userId, 'in_progress')
 }
 
-export async function getAndSendTickets(userId: number, status: 'in_progress' | 'done') {
+export async function getAndSendTickets(userId: string, status: 'in_progress' | 'done') {
     const sessionToken = await getGlpiSessionToken()
 
     if (status === 'in_progress') {
