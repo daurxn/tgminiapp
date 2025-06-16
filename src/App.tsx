@@ -8,10 +8,11 @@ function App() {
 
   function getPhoneNumber() {
     if (window.Telegram.WebApp) {
-      window.Telegram.WebApp.requestContact(x => {
+      const xd = window.Telegram.WebApp.requestContact(x => {
         console.log('x', x)
-        setPhone(x[0])
+        setPhone(x)
       })
+      console.log('xd', xd)
     }
   }
 
