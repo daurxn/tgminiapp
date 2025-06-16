@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import './App.css'
-import { getMyTicketsInProgress } from './services/tickets'
 
 function App() {
-  const [phone, setPhone] = useState<null | string>(null)
+  // const [phone, setPhone] = useState<null | string>(null)
   // const userId = window.Telegram.WebApp.initDataUnsafe?.user?.id ?? 2
   // const [tickets, setTickets] = useState([])
 
