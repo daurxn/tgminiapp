@@ -28,13 +28,27 @@ function App() {
       // Handler for contactRequested event
       const handleContactRequested = (data: ContactRequestedData) => {
         console.log('Contact requested event:', data)
-        if (data.status === 'sent') {
-          // Note: We don't actually get the phone number from this API
-          // The phone number is shared with the bot/backend, not with the frontend
-          setPhoneNumber('Phone number shared with bot')
-          setStatusMessage('Success! Your phone number has been shared with the bot.')
+        if (
+          data.status === 'sent' &&
+          data.responseUnsafe?.contact?.phone_number
+        ) {
+          // Extract phone number from the responseUnsafe object
+          const phoneNumber = data.responseUnsafe.contact.phone_number
+          setPhoneNumber(phoneNumber)
+          setStatusMessage(
+            `Success! Your phone number ${phoneNumber} has been received.`
+          )
+        } else if (data.status === 'sent') {
+          // Phone number was shared but not available in the response
+          setPhoneNumber('Phone number shared but not accessible')
+          setStatusMessage(
+            'Your phone number was shared, but we cannot access it directly.'
+          )
         } else {
-          setStatusMessage('You declined to share your phone number. Please try again.')
+          // User declined to shares
+          setStatusMessage(
+            'You declined to share your phone number. Please try again.'
+          )
         }
       }
 
