@@ -30,7 +30,7 @@ export async function getCurrentTicketsFromGlpi(userId: string, sessionToken: st
         });
 
         if (response.ok) {
-            return await response.json();
+            return await response.json() as { data: any[] };
         } else {
             console.error(`Ошибка при получении заявок: ${response.status}`);
             return null;
@@ -49,11 +49,23 @@ export async function getAndSendTickets(userId: string, status: 'in_progress' | 
     const sessionToken = await getGlpiSessionToken()
 
     if (status === 'in_progress') {
-        const ticketRequests = getCurrentTicketsFromGlpi(userId, sessionToken)
+        const ticketRequestsFromGlpi = await getCurrentTicketsFromGlpi(userId, sessionToken)
 
-        if ('data' in ticketRequests) {
-            return ticketRequests['data']
+        const result = []
+
+        if (ticketRequestsFromGlpi && 'data' in ticketRequestsFromGlpi) {
+            for (const req of ticketRequestsFromGlpi.data) {
+                const id = req[2]
+                const title = req[1]
+                const close = null
+                const status = req[12]
+                const description = req[21]
+
+                result.push({ id, title, close, status, description })
+            }
         }
+
+        return result
     }
 
     return []

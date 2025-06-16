@@ -4,6 +4,7 @@ import { getGlpiSessionToken, processPhoneNumber } from './services/glpi'
 import { getMyTicketsInProgress } from './services/tickets'
 
 function App() {
+  const [tickets, setTickets] = useState<any[]>([])
   const [userId, setUserId] = useState<string | null>(null)
   const [phoneNumber, setPhoneNumber] = useState<string | null>(null)
   const [statusMessage, setStatusMessage] = useState<string>(
@@ -40,9 +41,9 @@ function App() {
     }
   }, [])
 
-  useEffect(() => {
-    getGlpiSessionToken()
-  }, [])
+  // useEffect(() => {
+  //   getGlpiSessionToken()
+  // }, [])
 
   useEffect(() => {
     if (phoneNumber) {
@@ -65,9 +66,10 @@ function App() {
 
   useEffect(() => {
     async function getTickets() {
-      const tickets = await getMyTicketsInProgress(userId!)
+      const ticketsInProgress = await getMyTicketsInProgress(userId!)
 
-      console.log('tickets: ', tickets)
+      console.log('tickets: ', ticketsInProgress)
+      setTickets(ticketsInProgress)
     }
 
     if (userId) {
@@ -85,10 +87,17 @@ function App() {
     }
   }
 
+  const ticketsListItems = tickets.map(ticket => (
+    <li key={ticket.id}>{JSON.stringify(ticket)}</li>
+  ))
+
   return (
     <div>
       {phoneNumber ? (
-        <div>Phone: {phoneNumber}</div>
+        <>
+          <div>Phone: {phoneNumber}</div>
+          <ul>{ticketsListItems}</ul>
+        </>
       ) : (
         <>
           <div>{statusMessage}</div>
