@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 
 function App() {
@@ -6,16 +6,19 @@ function App() {
   // const userId = window.Telegram.WebApp.initDataUnsafe?.user?.id ?? 2
   // const [tickets, setTickets] = useState([])
 
-  async function getPhoneNumber() {
+  useEffect(function () {
     if (window.Telegram.WebApp) {
-      try {
-        // Use the correct requestPhone method that returns a Promise
-        const phoneNumber = await window.Telegram.WebApp.requestPhone()
-        console.log('Phone number received:', phoneNumber)
-        setPhone(phoneNumber)
-      } catch (error) {
-        console.error('Error getting phone number:', error)
-      }
+      console.log(window.Telegram.WebApp)
+    }
+  }, [])
+
+  function getPhoneNumber() {
+    if (window.Telegram.WebApp) {
+      const xd = window.Telegram.WebApp.requestContact(x => {
+        console.log('x', x)
+        setPhone(x)
+      })
+      console.log('xd', xd)
     }
   }
 
