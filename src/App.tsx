@@ -13,7 +13,7 @@ function App() {
       })
     }
     // smth
-    
+
   }, [])
 
   // useEffect(
@@ -30,8 +30,8 @@ function App() {
 
   return (
     <div>
-      <div>{userId}</div>
-      <div>{tickets}</div>
+      {/* <div>{userId}</div>
+      <div>{tickets}</div> */}
     </div>
   )
 }
